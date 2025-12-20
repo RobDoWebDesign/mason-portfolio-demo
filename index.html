@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mason's Portfolio Website</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="/">Mason</a>
+      <button id="nav-toggle" aria-label="Toggle navigation">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="3" y="3" width="4" height="4" rx="1" fill="currentColor"></rect>
+          <rect x="10" y="3" width="4" height="4" rx="1" fill="currentColor"></rect>
+          <rect x="17" y="3" width="4" height="4" rx="1" fill="currentColor"></rect>
+          <rect x="3" y="10" width="4" height="4" rx="1" fill="currentColor"></rect>
+          <rect x="10" y="10" width="4" height="4" rx="1" fill="currentColor"></rect>
+          <rect x="17" y="10" width="4" height="4" rx="1" fill="currentColor"></rect>
+          <rect x="3" y="17" width="4" height="4" rx="1" fill="currentColor"></rect>
+          <rect x="10" y="17" width="4" height="4" rx="1" fill="currentColor"></rect>
+          <rect x="17" y="17" width="4" height="4" rx="1" fill="currentColor"></rect>
+        </svg>
+      </button>
+      <nav id="main-nav" class="nav">
+        <a href="index.html">Home</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="videos.html">Videos</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Mason's Photography & Videography Portfolio</h1>
+        <p>Showcasing professional projects and personal explorations</p>
+        <p class="cta-row">
+          <a class="btn" href="portfolio.html">View Portfolio</a>
+          <a class="btn ghost" href="contact.html">Contact</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="preview container">
+      <h2>Featured Work</h2>
+
+      <div class="grid">
+        <a class="card" href="portfolio.html">
+          <div class="media-frame">
+            <img src="assets/images/mason-13.jpg" alt="" loading="lazy">
+          </div>
+          <div class="card-title">Client Work</div>
+        </a>
+
+        <a class="card" href="portfolio.html">
+          <div class="media-frame">
+            <img src="assets/images/mason-23.jpg" alt="" loading="lazy">
+          </div>
+          <div class="card-title">Portraits</div>
+        </a>
+
+        <a class="card" href="videos.html">
+          <div class="media-frame">
+            <img src="assets/images/mason-union.JPG" alt="" loading="lazy">
+          </div>
+          <div class="card-title">Short Films</div>
+        </a>
+
+        <a class="card" href="portfolio.html">
+          <div class="media-frame">
+            <img src="assets/images/mason-20.jpg" alt="" loading="lazy">
+          </div>
+          <div class="card-title">Events & Athletics</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© Mason • <a href="contact.html" target="_blank" style="color:var(--accent);text-decoration:none;">Get in touch</a> • <a href="https://instagram.com/yourhandle" target="_blank" style="color:var(--accent);text-decoration:none;">Instagram</a></small>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
