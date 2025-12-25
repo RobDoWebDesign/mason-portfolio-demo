@@ -2,35 +2,14 @@ document.addEventListener('DOMContentLoaded',function(){
   var t=document.getElementById('nav-toggle');
   var n=document.getElementById('main-nav');
   if(t&&n){t.addEventListener('click',function(){n.classList.toggle('open')});}
-
-  var form=document.getElementById('contact-form');
-  if(form){
-    form.addEventListener('submit',function(e){
-      // Use form's action (example uses Formspree). If not configured, fallback to mailto.
-      var action=form.getAttribute('action')||'';
-      if(action.indexOf('formspree.io')===-1){
-        // fallback: open mail client
-        e.preventDefault();
-        var name=form.querySelector('[name="name"]').value||'';
-        var email=form.querySelector('[name="email"]').value||'';
-        var message=form.querySelector('[name="message"]').value||'';
-        var subject=encodeURIComponent('Portfolio contact from '+name);
-        var body=encodeURIComponent('From: '+name+' ('+email+')\n\n'+message);
-        window.location.href='mailto:hello@mason.example?subject='+subject+'&body='+body;
-      }
-    });
-  }
 });
 
-// --- Lightbox gallery (robust) ---
 document.addEventListener('DOMContentLoaded', function () {
   var galleryImgs = Array.from(document.querySelectorAll('.gallery .card img'));
   if (!galleryImgs.length) return;
 
-  // ensure each image has a data-index
   galleryImgs.forEach(function(img, i){ img.dataset.index = i; img.style.cursor = 'zoom-in'; });
 
-  // ensure lightbox markup exists; create if missing
   var lb = document.getElementById('lightbox');
   if (!lb) {
     lb = document.createElement('div');
@@ -59,11 +38,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     lbCaption.textContent = alt;
 
-    // preload neighbors
     var next = new Image(); next.src = galleryImgs[(currentIndex+1)%galleryImgs.length].getAttribute('src');
     var prev = new Image(); prev.src = galleryImgs[(currentIndex-1+galleryImgs.length)%galleryImgs.length].getAttribute('src');
 
-    // Clear manual sizing and onload
     lbImg.onload = null;
     lbImg.style.width = '';
     lbImg.style.height = '';
@@ -83,15 +60,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (lbClose) lbClose.focus();
   }
 
-  // Fit is the only mode — lightbox defaults to fit and no toggle is needed
-
   function hide() { if (!lb) return; lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbImg.removeAttribute('src'); }
 
-  // ensure background unlocking when hidden
   var originalHide = hide;
   hide = function(){ originalHide(); document.documentElement.classList.remove('no-scroll'); document.body.classList.remove('no-scroll'); };
 
-  // open when clicking image or its parent card
   galleryImgs.forEach(function(img){
     img.addEventListener('click', function(e){ e.preventDefault(); showIndex(parseInt(img.dataset.index,10)); });
     var card = img.closest('.card');
@@ -109,6 +82,5 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.key === 'ArrowLeft') showIndex(currentIndex-1);
   });
 
-  // click backdrop to close if clicking outside inner
   lb.addEventListener('click', function(e){ if (e.target === lb) hide(); });
 });
