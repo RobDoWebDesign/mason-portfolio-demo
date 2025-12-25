@@ -48,82 +48,38 @@ document.addEventListener('DOMContentLoaded', function () {
   var lbPrev = lb.querySelector('.lb-prev');
   var lbNext = lb.querySelector('.lb-next');
   var currentIndex = 0;
-  // default to fit mode (like browser scaled view)
-  lb.classList.add('fit');
 
   function showIndex(i) {
     if (!lb || !lbImg) return;
-    currentIndex = (i + galleryImgs.length) % galleryImgs.length;
+    var nextIndex = (i + galleryImgs.length) % galleryImgs.length;
+    currentIndex = nextIndex;
+
     var src = galleryImgs[currentIndex].getAttribute('src');
     var alt = galleryImgs[currentIndex].getAttribute('alt') || '';
-    // prepare onload handler before setting src (handle cached images correctly)
-    lbImg.onload = null;
-      lbImg.style.width = 'auto';
-      lbImg.style.height = 'auto';
-      lbImg.style.maxWidth = 'none';
-      lbImg.style.maxHeight = 'none';
+
     lbCaption.textContent = alt;
-    lb.classList.add('open');
-    lb.setAttribute('aria-hidden', 'false');
-    // prevent background from scrolling when lightbox open
-    document.documentElement.classList.add('no-scroll');
-    document.body.classList.add('no-scroll');
+
     // preload neighbors
     var next = new Image(); next.src = galleryImgs[(currentIndex+1)%galleryImgs.length].getAttribute('src');
     var prev = new Image(); prev.src = galleryImgs[(currentIndex-1+galleryImgs.length)%galleryImgs.length].getAttribute('src');
-    // Clear any inline sizing so CSS can scale the image to fit viewport
+
+    // Clear manual sizing and onload
+    lbImg.onload = null;
     lbImg.style.width = '';
     lbImg.style.height = '';
     lbImg.style.maxWidth = '';
     lbImg.style.maxHeight = '';
-    // prepare onload sizing: compute fit when in 'fit' mode
-    lbImg.onload = function(){
-      try{
-        var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-        var vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-        var marginW = 120, marginH = 120;
-        if (vw >= 1600) { marginW = 400; marginH = 200; }
-        if (vw >= 2200) { marginW = 800; marginH = 300; }
-        var natW = lbImg.naturalWidth || vw;
-        var natH = lbImg.naturalHeight || vh;
-        if (lb.classList.contains('fit')){
-          var targetW = Math.max(100, vw - marginW);
-          var targetH = Math.max(100, vh - marginH);
-          // allow a small upscale for vertical/tall images so they appear a bit larger
-          var isVertical = (natH / natW) > 1.15;
-          var maxScale = isVertical ? 1.12 : 1.0; // ~12% upscale for tall images
-          // Compute scale limited by width and height constraints
-          var scaleW = targetW / natW;
-          var scaleH = targetH / natH;
-          var scale = Math.min(maxScale, scaleW, scaleH);
-          var dispW = Math.round(natW * scale);
-          var dispH = Math.round(natH * scale);
-          // If image is portrait/tall, prefer sizing by height so top/bottom map to viewport
-          if (isVertical) {
-            lbImg.style.height = dispH + 'px';
-            lbImg.style.width = 'auto';
-            lbImg.style.maxHeight = dispH + 'px';
-            lbImg.style.maxWidth = dispW + 'px';
-          } else {
-            lbImg.style.width = dispW + 'px';
-            lbImg.style.height = 'auto';
-            lbImg.style.maxWidth = dispW + 'px';
-            lbImg.style.maxHeight = dispH + 'px';
-          }
-          // ensure image is centered in viewport
-          lbImg.style.objectPosition = 'center center';
-        } else {
-          lbImg.style.width = 'auto';
-          lbImg.style.height = 'auto';
-          lbImg.style.maxWidth = 'none';
-          lbImg.style.maxHeight = 'none';
-        }
-      }catch(e){ }
-    };
-    // now set src (after onload assigned) and alt
+    
     lbImg.setAttribute('src', src);
     lbImg.setAttribute('alt', alt);
-    // focus close for accessibility
+
+    if (!lb.classList.contains('open')) {
+      lb.classList.add('open');
+      lb.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('no-scroll');
+      document.body.classList.add('no-scroll');
+    }
+
     if (lbClose) lbClose.focus();
   }
 
@@ -155,14 +111,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // click backdrop to close if clicking outside inner
   lb.addEventListener('click', function(e){ if (e.target === lb) hide(); });
-  // recalc on resize while open
-  window.addEventListener('resize', function(){
-    var lbOpen = document.getElementById('lightbox');
-    if (!lbOpen || !lbOpen.classList.contains('open')) return;
-    if (lbImg && lbImg.src) {
-      // trigger onload logic by reassigning src
-      var s = lbImg.src; lbImg.src = ''; lbImg.src = s;
-    }
-  });
 });
-
